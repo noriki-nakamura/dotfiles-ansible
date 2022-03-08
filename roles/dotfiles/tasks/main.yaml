@@ -1,0 +1,21 @@
+---
+- name: Put Git config file
+  copy:
+    src: gitconfig
+    dest: "/home/{{ ansible_env.USER }}/.gitconfig"
+- name: Put Git ignore file
+  copy:
+    src: gitignore
+    dest: "/home/{{ ansible_env.USER }}/.gitignore"
+- name: Put tmux config file
+  copy:
+    src: tmux.conf
+    dest: "/home/{{ ansible_env.USER }}/.tmux.conf"
+- name: Put zshrc file
+  copy:
+    src: zshrc
+    dest: "/home/{{ ansible_env.USER }}/.zshrc"
+- name: Put vimrc file
+  copy:
+    src: vimrc
+    dest: "/home/{{ ansible_env.USER }}/.vimrc"

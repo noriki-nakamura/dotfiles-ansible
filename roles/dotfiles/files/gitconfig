@@ -1,0 +1,10 @@
+[user]
+	name = Noriki Nakamura
+	email = bynn_chapu@tencho-lab.net
+[core]
+	editor = vim
+	excludesfile = ~/.gitignore
+[color]
+	ui = true
+[push]
+	default = matching

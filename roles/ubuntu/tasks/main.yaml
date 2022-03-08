@@ -1,0 +1,9 @@
+---
+- name: Install packages (Ubuntu)
+  apt:
+    update_cache: yes
+    name: "{{ item }}"
+  loop:
+    - tmux
+    - vim
+    - zsh
