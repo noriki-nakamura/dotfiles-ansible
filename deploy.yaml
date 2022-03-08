@@ -6,3 +6,4 @@
       when: ansible_facts['distribution'] == 'Ubuntu'
       become: yes
     - role: dotfiles
+    - role: zsh
