@@ -1,4 +1,9 @@
 ---
+- name: Update packages (Ubuntu)
+  apt:
+    update_cache: yes
+    name: "*"
+    state: latest
 - name: Install packages (Ubuntu)
   apt:
     update_cache: yes
