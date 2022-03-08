@@ -2,7 +2,7 @@
 - name: Deploy dotfiles
   hosts: all
   roles:
-    - role: dotfiles
     - role: ubuntu
       when: ansible_facts['distribution'] == 'Ubuntu'
       become: yes
+    - role: dotfiles
