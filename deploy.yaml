@@ -7,3 +7,4 @@
       become: yes
     - role: dotfiles
     - role: zsh
+    - role: vim

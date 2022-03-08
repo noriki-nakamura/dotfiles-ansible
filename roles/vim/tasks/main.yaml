@@ -1,0 +1,9 @@
+---
+- name: Clone dein.vim
+  git:
+    repo: https://github.com/Shougo/dein.vim
+    dest: "/home/{{ ansible_env.USER }}/.cache/dein/repos/github.com/Shougo/dein.vim"
+    depth: 1
+- name: Show installation step
+  debug:
+    msg: "Run vim and do `:call dein#install()`"
