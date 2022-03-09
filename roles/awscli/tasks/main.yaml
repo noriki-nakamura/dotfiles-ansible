@@ -1,0 +1,55 @@
+---
+- name: Check is aws command installed
+  command:
+    cmd: "which aws"
+  environment:
+    PATH: "/usr/loca/bin:{{ ansible_env.PATH }}"
+  register: exist_awscli
+  changed_when: false
+  failed_when: false
+- name: Get awscli v2 version
+  shell:
+    cmd: "aws --version 2>&1 | grep -oP '(?<=aws-cli\\/)\\d+\\.\\d+\\.\\d+'"
+  environment:
+    PATH: "/usr/loca/bin:{{ ansible_env.PATH }}"
+  register: version_awscli
+  changed_when: false
+  failed_when: false
+  when:
+    exist_awscli.rc == 0
+- block:
+  - name: Create Working space
+    file:
+      path: "/tmp/awscli"
+      state: directory
+      mode: "0755"
+  - name: Download Zip file
+    get_url:
+      url: "{{ awscli.src }}"
+      dest: "/tmp/{{ awscli.zip }}"
+  - name: Unarchive Zip file
+    unarchive:
+      src: "/tmp/{{ awscli.zip }}"
+      dest: "/tmp/awscli"
+      copy: no
+  - name: Install awscli
+    command:
+      cmd: "./aws/install --update"
+      chdir: "/tmp/awscli"
+      creates: yes
+    become: yes
+  - name: Remove working files
+    file:
+      path: "{{ item }}"
+      state: absent
+    loop:
+      - "/tmp/{{ awscli.zip }}"
+      - "/tmp/awscli"
+  when:
+    exist_awscli.rc != 0
+    or (version_awscli is defined and version_awscli.stdout.find(cli_version) == -1)
+- name: Install aws-mfa module
+  pip:
+    name: aws-mfa
+    state: latest
+  become: yes

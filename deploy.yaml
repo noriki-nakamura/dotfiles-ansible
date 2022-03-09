@@ -9,3 +9,4 @@
     - role: dotfiles
     - role: zsh
     - role: vim
+    - role: awscli
