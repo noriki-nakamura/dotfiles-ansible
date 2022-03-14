@@ -1,0 +1,4 @@
+#!/bin/sh
+SECRET={{ mfa_secret }}
+
+oathtool --totp --time-step-size=30s --base32 $SECRET
