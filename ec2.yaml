@@ -1,0 +1,7 @@
+---
+- name: Deploy dotfiles for EC2
+  hosts: all
+  roles:
+    - role: dotfiles
+    - role: zsh
+    - role: vim
