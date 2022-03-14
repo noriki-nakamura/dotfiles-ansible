@@ -18,16 +18,16 @@
   when:
     exist_awscli.rc == 0
 - block:
-  - name: Create Working space
+  - name: Create Working space for awscli
     file:
       path: "/tmp/awscli"
       state: directory
       mode: "0755"
-  - name: Download Zip file
+  - name: Download awscli Zip file
     get_url:
       url: "{{ awscli.src }}"
       dest: "/tmp/{{ awscli.zip }}"
-  - name: Unarchive Zip file
+  - name: Unarchive awscli Zip file
     unarchive:
       src: "/tmp/{{ awscli.zip }}"
       dest: "/tmp/awscli"
@@ -38,7 +38,7 @@
       chdir: "/tmp/awscli"
       creates: yes
     become: yes
-  - name: Remove working files
+  - name: Remove working files for awscli
     file:
       path: "{{ item }}"
       state: absent
@@ -74,3 +74,38 @@
     src: credentials.j2
     dest: "/home/{{ ansible_env.USER }}/.aws/credentials"
     mode: "0600"
+
+- name: Create Working space for rain
+  file:
+    path: "/tmp/rain"
+    state: directory
+    mode: "0755"
+  changed_when: false
+- block:
+  - name: Download rain Zip file
+    get_url:
+      url: "{{ rain.x86_64src }}"
+      dest: "/tmp/{{ rain.x86_64zip }}"
+    changed_when: false
+  - name: Unarchive rain Zip file
+    unarchive:
+      src: "/tmp/{{ rain.x86_64zip }}"
+      dest: "/tmp/rain"
+      copy: no
+    changed_when: false
+  - name: Copy rain to /usr/local/bin
+    copy:
+      src: "/tmp/rain/rain-v{{ rain_version }}_linux-amd64/rain"
+      dest: "/usr/local/bin/"
+      mode: "0755"
+    become: yes
+  - name: Remove working files for rain
+    file:
+      path: "{{ item }}"
+      state: absent
+    loop:
+      - "/tmp/{{ rain.x86_64zip }}"
+      - "/tmp/rain"
+    changed_when: false
+  when:
+    ansible_architecture == "x86_64"

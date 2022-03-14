@@ -3,6 +3,12 @@ cli_version: 2.4.24
 awscli:
   src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64-{{ cli_version }}.zip
   zip: awscli-{{ cli_version }}.zip
+rain_version: 1.2.0
+rain:
+  x86_64src: https://github.com/aws-cloudformation/rain/releases/download/v{{ rain_version }}/rain-v{{ rain_version }}_linux-amd64.zip
+  #aarch64-src: https://github.com/aws-cloudformation/rain/releases/download/v{{ rain_version }}/rain-v{{ rain_version }}_linux-arm64.zip
+  x86_64zip: rain-{{ rain_version }}_linux-amd64.zip
+  #aarch64-zip: rain-{{ rain_version }}_linux-arm64.zip
 mfa_secret: !vault |
   $ANSIBLE_VAULT;1.1;AES256
   37343831666265326333366632643566353165333930646161346630653164646635333262376435
