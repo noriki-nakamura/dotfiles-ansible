@@ -1,0 +1,5 @@
+---
+- name: Initialize ansible config
+  hosts: localhost
+  roles:
+    - role: ansible

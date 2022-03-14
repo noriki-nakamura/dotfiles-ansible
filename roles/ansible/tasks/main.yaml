@@ -1,0 +1,7 @@
+---
+- name: Put ansible config
+  copy:
+    src: ansible.cfg
+    dest: /etc/ansible/ansible.cfg
+    mode: "0644"
+  become: yes
