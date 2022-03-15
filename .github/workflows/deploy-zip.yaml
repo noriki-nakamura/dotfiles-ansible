@@ -3,21 +3,17 @@ on:
   push:
 
 jobs:
-  build:
+  deploy:
     name: Build ZIP file.
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Create zip file
-        uses: montudor/action-zip@v1
+        uses: ncipollo/zip-release@0.6.1
         with:
-          args: zip -qq -r dotfiles-ansible-$env:GITHUB_REF_NAME.zip .
-  deploy:
-    name: Deploy ZIP file into AWS S3.
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
+          type: zip
+          filename: dotfiles-ansible-${{ github.head_ref }}.zip
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -25,4 +21,4 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-1
       - name: Copy zip file to S3
-        run: aws s3 cp dotfiles-ansible-$env:GITHUB_REF_NAME.zip s3://tencho-lab-github-actions-artifact/dotfiles-ansible/
+        run: aws s3 cp dotfiles-ansible-${{ github.head_ref }}.zip s3://tencho-lab-github-actions-artifact/dotfiles-ansible/
