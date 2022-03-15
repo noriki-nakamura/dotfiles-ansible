@@ -8,11 +8,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Get Branch name
+        run: |
+          echo "${GITHUB_REF#refs/heads/}"
+          echo "::set-output name=BRANCH_NAME::${GITHUB_REF#refs/heads/}"
+        id: branch_info
       - name: Create zip file
         uses: TheDoctor0/zip-release@0.6.1
         with:
           type: zip
-          filename: dotfiles-ansible-${{ github.head_ref }}.zip
+          filename: dotfiles-ansible-${{ steps.branch_info.outputs.BRANCH_NAME }}.zip
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -20,4 +25,4 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-1
       - name: Copy zip file to S3
-        run: aws s3 cp dotfiles-ansible-${{ github.head_ref }}.zip s3://tencho-lab-github-actions-artifact/dotfiles-ansible/
+        run: aws s3 cp dotfiles-ansible-${{ steps.branch_info.outputs.BRANCH_NAME }}.zip s3://tencho-lab-github-actions-artifact/dotfiles-ansible/
