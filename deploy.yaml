@@ -1,6 +1,8 @@
 ---
 - name: Deploy dotfiles
   hosts: all
+  vars:
+    target_user: "{{ ansible_env.USER }}"
   roles:
     - role: ansible
     - role: sudo

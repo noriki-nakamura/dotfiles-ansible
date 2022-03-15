@@ -61,18 +61,18 @@
   become: yes
 - name: Create aws config directory
   file:
-    dest: "/home/{{ ansible_env.USER }}/.aws"
+    dest: "/home/{{ target_user }}/.aws"
     state: directory
     mode: "0755"
 - name: Put config file
   copy:
     src: aws.config
-    dest: "/home/{{ ansible_env.USER }}/.aws/config"
+    dest: "/home/{{ target_user }}/.aws/config"
     mode: "0600"
 - name: Put credential file
   template:
     src: credentials.j2
-    dest: "/home/{{ ansible_env.USER }}/.aws/credentials"
+    dest: "/home/{{ target_user }}/.aws/credentials"
     mode: "0600"
 
 - name: Create Working space for rain
