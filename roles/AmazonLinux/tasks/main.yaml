@@ -35,9 +35,6 @@
   failed_when: false
   when:
     exist_tmux.rc == 0
-- name: Show tmux version
-  debug:
-    vars: version_tmux
 - block:
   - name: Create Working space for tmux
     file:
