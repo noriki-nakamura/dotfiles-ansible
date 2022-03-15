@@ -15,7 +15,7 @@ jobs:
           args: zip -qq -r dotfiles-ansible-$env:GITHUB_REF_NAME.zip .
   deploy:
     name: Deploy ZIP file into AWS S3.
-    needs: jobs
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS credentials
