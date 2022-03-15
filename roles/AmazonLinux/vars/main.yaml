@@ -1,0 +1,5 @@
+---
+tmux_version: 3.0a
+tmux:
+  src: https://github.com/tmux/tmux/releases/download/{{ tmux_version }}/tmux-{{ tmux_version }}.tar.gz
+  targz: tmux-{{ tmux_version }}.tar.gz

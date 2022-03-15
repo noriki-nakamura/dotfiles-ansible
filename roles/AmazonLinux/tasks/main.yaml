@@ -1,0 +1,82 @@
+---
+- name: Install packages (AmazonLinux)
+  yum:
+    update_cache: yes
+    name: "{{ item }}"
+  loop:
+    - git
+    - vim
+    - zsh
+    - zip
+    - unzip
+    - python3-pip
+- name: Install build packages for tmux (AmazonLinux)
+  yum:
+    update_cache: yes
+    name: "{{ item }}"
+  loop:
+    - gcc
+    - libevent-devel
+    - ncurses-devel
+- name: Check is tmux command installed
+  command: "which tmux"
+  environment:
+    PATH: "/usr/loca/bin:{{ ansible_env.PATH }}"
+  register: exist_tmux
+  changed_when: false
+  failed_when: false
+- name: Get tmux version
+  shell:
+    cmd: "tmux -V | grep -oP \"([0-9]+.){1}[0-9]+(.[0-9]+)?[a-zA-Z]?\""
+  environment:
+    PATH: "/usr/loca/bin:{{ ansible_env.PATH }}"
+  register: version_tmux
+  changed_when: false
+  failed_when: false
+  when:
+    exist_tmux.rc == 0
+- name: Show tmux version
+  debug:
+    vars: version_tmux
+- block:
+  - name: Create Working space for tmux
+    file:
+      path: "/tmp/tmux"
+      state: directory
+      mode: "0755"
+  - name: Download tmux tar.gz file
+    get_url:
+      url: "{{ tmux.src }}"
+      dest: "/tmp/{{ tmux.targz }}"
+  - name: Unarchive tmux tar.gz file
+    unarchive:
+      src: "/tmp/{{ tmux.targz }}"
+      dest: "/tmp/tmux"
+      copy: no
+  - name: Configure tmux
+    command: 
+      cmd: "./configure"
+      chdir: "/tmp/tmux/tmux-{{ tmux_version }}"
+    changed_when: false
+    failed_when: false
+  - name: make tmux
+    make:
+      chdir: "/tmp/tmux/tmux-{{ tmux_version }}"
+    changed_when: false
+    failed_when: false
+  - name: make install tmux
+    make:
+      target: install
+      chdir: "/tmp/tmux/tmux-{{ tmux_version }}"
+    changed_when: false
+    failed_when: false
+  - name: Remove working files for tmux
+    file:
+      path: "{{ item }}"
+      state: absent
+    loop:
+      - "/tmp/{{ tmux.targz }}"
+      - "/tmp/tmux"
+  when:
+    exist_tmux.rc != 0
+    or (version_tmux is defined and version_tmux.stdout.find(tmux_version))
