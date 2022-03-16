@@ -3,19 +3,29 @@
   copy:
     src: gitconfig
     dest: "/home/{{ target_user }}/.gitconfig"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
 - name: Put Git ignore file
   copy:
     src: gitignore
     dest: "/home/{{ target_user }}/.gitignore"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
 - name: Put tmux config file
   copy:
     src: tmux.conf
     dest: "/home/{{ target_user }}/.tmux.conf"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
 - name: Put zshrc file
   copy:
     src: zshrc
     dest: "/home/{{ target_user }}/.zshrc"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
 - name: Put vimrc file
   copy:
     src: vimrc
     dest: "/home/{{ target_user }}/.vimrc"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"

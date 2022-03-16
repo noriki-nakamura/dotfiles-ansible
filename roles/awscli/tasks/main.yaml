@@ -64,16 +64,22 @@
     dest: "/home/{{ target_user }}/.aws"
     state: directory
     mode: "0755"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
 - name: Put config file
   copy:
     src: aws.config
     dest: "/home/{{ target_user }}/.aws/config"
     mode: "0600"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
 - name: Put credential file
   template:
     src: credentials.j2
     dest: "/home/{{ target_user }}/.aws/credentials"
     mode: "0600"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
 
 - name: Create Working space for rain
   file:
