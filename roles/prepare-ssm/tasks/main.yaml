@@ -6,3 +6,4 @@
     mode: "0700"
     owner: "{{ target_user }}"
     group: "{{ target_user }}"
+  become: yes
