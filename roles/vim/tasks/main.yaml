@@ -4,6 +4,11 @@
     repo: https://github.com/Shougo/dein.vim
     dest: "/home/{{ target_user }}/.cache/dein/repos/github.com/Shougo/dein.vim"
     depth: 1
+- name: Change owner of directory for dein.vim
+  file:
+    path: "/home/{{ target_user }}/.cache/dein/repos/github.com/Shougo/dein.vim"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
 - name: Show installation step
   debug:
     msg: "Run vim and do `:call dein#install()`"

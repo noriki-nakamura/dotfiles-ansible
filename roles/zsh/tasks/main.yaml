@@ -3,6 +3,11 @@
   git:
     repo: https://github.com/ohmyzsh/ohmyzsh.git
     dest: "/home/{{ target_user }}/.oh-my-zsh"
+- name: Change owner of directory for oh-my-zsh
+  file:
+    path: "/home/{{ target_user }}/.oh-my-zsh"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
 - name: Set default shell as zsh
   user:
     name: "{{ target_user }}"
