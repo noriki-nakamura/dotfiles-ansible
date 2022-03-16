@@ -7,6 +7,7 @@
 - name: Change owner of directory for dein.vim
   file:
     path: "/home/{{ target_user }}/.cache/dein/repos/github.com/Shougo/dein.vim"
+    recurse: yes
     owner: "{{ target_user }}"
     group: "{{ target_user }}"
 - name: Show installation step

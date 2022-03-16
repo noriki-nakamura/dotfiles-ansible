@@ -6,6 +6,7 @@
 - name: Change owner of directory for oh-my-zsh
   file:
     path: "/home/{{ target_user }}/.oh-my-zsh"
+    recurse: yes
     owner: "{{ target_user }}"
     group: "{{ target_user }}"
 - name: Set default shell as zsh
