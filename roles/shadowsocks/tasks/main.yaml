@@ -1,0 +1,88 @@
+---
+- name: Enable extras epel module
+  shell: "amazon-linux-extras enable epel"
+  changed_when: false
+- name: Enable epel yum repository
+  yum:
+    update_cache: yes
+    name: epel-release
+- name: Install packages (ShadowSocks)
+  yum:
+    update_cache: yes
+    name: "{{ item }}"
+  loop:
+    - git
+    - gcc
+    - gettext
+    - autoconf
+    - libtool
+    - automake
+    - make
+    - pcre-devel
+    - asciidoc
+    - xmlto
+    - c-ares-devel
+    - libev-devel
+    - libsodium-devel
+    - mbedtls-devel
+- name: Check is ss-server command installed
+  command: "which ss-server"
+  environment:
+    PATH: "/usr/loca/bin:{{ ansible_env.PATH }}"
+  register: exist_shadowsocks
+  changed_when: false
+  failed_when: false
+- name: Get ss-server command version
+  shell:
+    cmd: "ss-server --help | head -n2 | tail -n1 | awk '{print $2}'"
+  environment:
+    PATH: "/usr/loca/bin:{{ ansible_env.PATH }}"
+  register: version_shadowsocks
+  changed_when: false
+  failed_when: false
+  when:
+    exist_shadowsocks.rc == 0
+- block:
+  - name: Create Working space for build shadowsocks
+    file:
+      path: "{{ shadowsocks_workdir }}"
+      state: directory
+      mode: "0755"
+  - name: Download shadowsocks git repository
+    git:
+      repo: "https://github.com/shadowsocks/shadowsocks-libev.git"
+      dest: "{{ shadowsocks_workdir }}"
+      version: v3.3.5
+  - name: Run autogen.sh command
+    shell:
+      cmd: ./autogen.sh
+      chdir: "{{ shadowsocks_workdir }}"
+  - name: Run ./configure command
+    shell:
+      cmd: ./configure
+      chdir: "{{ shadowsocks_workdir }}"
+  - name: Run `make` command
+    make:
+      chdir: "{{ shadowsocks_workdir }}"
+  - name: Run `make install` command
+    make:
+      target: install
+      chdir: "{{ shadowsocks_workdir }}"
+  - name: Copy systemd service files
+    copy:
+      src: shadowsocks-libev-server@.service
+      dest: "/etc/systemd/system/"
+      mode: "0644"
+  when:
+    exist_shadowsocks.rc != 0
+    or (version_shadowsocks is defined and version_shadowsocks.stdout.find(shadowsocks_version) == -1)
+- name: Create config directory
+  file:
+    path: "/etc/shadowsocks"
+    state: directory
+    mode: "0755"
+- name: Put config file
+  template:
+    src: proxy.json.j2
+    dest: /etc/shadowsocks-libev/proxy.json
+    mode: 0644
