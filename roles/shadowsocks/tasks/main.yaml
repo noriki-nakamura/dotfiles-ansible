@@ -78,7 +78,7 @@
     or (version_shadowsocks is defined and version_shadowsocks.stdout.find(shadowsocks_version) == -1)
 - name: Create config directory
   file:
-    path: "/etc/shadowsocks"
+    path: "/etc/shadowsocks-libev"
     state: directory
     mode: "0755"
 - name: Put config file
