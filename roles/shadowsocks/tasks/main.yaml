@@ -86,3 +86,8 @@
     src: proxy.json.j2
     dest: /etc/shadowsocks-libev/proxy.json
     mode: 0644
+- name: Start ShadowSocks service
+  systemd:
+    name: shadowsocks-libev-server@proxy
+    state: restarted
+    enabled: true
