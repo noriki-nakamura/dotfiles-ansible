@@ -6,7 +6,6 @@
   loop:
     - git
     - vim
-    - zsh
     - zip
     - unzip
     - python3-pip

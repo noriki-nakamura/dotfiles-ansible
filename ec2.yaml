@@ -11,5 +11,4 @@
       when: ansible_facts['distribution'] == 'MIRACLE'
       become: yes
     - role: dotfiles
-    - role: zsh
     - role: vim

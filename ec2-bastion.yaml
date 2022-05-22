@@ -8,7 +8,6 @@
       when: ansible_facts['distribution'] == 'Amazon'
       become: yes
     - role: dotfiles
-    - role: zsh
     - role: vim
     - role: shadowsocks
       when: ansible_facts['distribution'] == 'Amazon'
