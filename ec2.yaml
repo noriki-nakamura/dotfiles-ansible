@@ -7,6 +7,9 @@
     - role: AmazonLinux
       when: ansible_facts['distribution'] == 'Amazon'
       become: yes
+    - role: MIRACLELinux
+      when: ansible_facts['distribution'] == 'MIRACLE'
+      become: yes
     - role: dotfiles
     - role: zsh
     - role: vim

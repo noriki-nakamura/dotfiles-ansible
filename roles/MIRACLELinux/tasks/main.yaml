@@ -1,0 +1,15 @@
+---
+- name: Update packages (MIRACLE Linux)
+  yum:
+    state: latest
+- name: Install packages (MIRACLE Linux)
+  yum:
+    update_cache: yes
+    name: "{{ item }}"
+  loop:
+    - git
+    - vim
+    - zsh
+    - zip
+    - unzip
+    - python3-pip
