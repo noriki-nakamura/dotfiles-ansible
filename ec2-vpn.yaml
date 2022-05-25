@@ -1,0 +1,11 @@
+---
+- name: Build instance for VPN
+  hosts: all
+  vars:
+    target_user: "ec2-user"
+  roles:
+    - role: MIRACLELinux
+      when: ansible_facts['distribution'] == 'MIRACLE'
+      become: yes
+    - role: dotfiles
+    - role: vim

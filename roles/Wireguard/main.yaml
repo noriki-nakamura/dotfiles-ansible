@@ -1,0 +1,14 @@
+---
+- name: Enable epel repository
+  dnf:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+- name: Enable jdoss/wireguard copr repository
+  copr:
+    state: enabled
+    name: jdoss/wireguard
+- name: Install require packages
+  dnf:
+    name: "{{ item }}"
+  loop:
+    - wireguard-dkms
+    - wireguard-tools
