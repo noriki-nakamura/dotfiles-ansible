@@ -9,3 +9,4 @@
       become: yes
     - role: dotfiles
     - role: vim
+    - role: Wireguard
