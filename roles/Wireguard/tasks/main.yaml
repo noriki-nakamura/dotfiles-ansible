@@ -4,10 +4,12 @@ collections:
 - name: Enable epel repository
   dnf:
     name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+    disable_gpg_check: yes
 - name: Enable jdoss/wireguard copr repository
   copr:
     state: enabled
     name: jdoss/wireguard
+    chroot: epel-8-x86_64
 - name: Install require packages
   dnf:
     name: "{{ item }}"
