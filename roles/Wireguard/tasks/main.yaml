@@ -1,4 +1,6 @@
 ---
+collections:
+  - community.general
 - name: Enable epel repository
   dnf:
     name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
