@@ -14,3 +14,13 @@
   loop:
     - wireguard-dkms
     - wireguard-tools
+- name: Put config file
+  template:
+    src: wg0.conf.j2
+    dest: /etc/wireguard/wg0.conf
+    mode: 0644
+- name: Start service of systemd for wireguard
+  systemd:
+    name: wg-quick@wg0
+    state: restarted
+    enabled: true

@@ -1,0 +1,15 @@
+[Interface]
+Address = 172.24.0.1/32
+MTU = 1380
+PrivateKey = {{ wireguard_server.key }}
+ListenPort = 51820
+PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+
+[Peer]
+PublicKey = {{ wireguard_core.pub }}
+AllowedIPs = 172.24.0.128/32
+
+[Peer]
+PublicKey = {{ wireguard_shm19.pub }}
+AllowedIPs = 172.24.0.128/32
