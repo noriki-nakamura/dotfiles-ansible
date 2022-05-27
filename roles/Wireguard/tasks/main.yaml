@@ -22,7 +22,7 @@
 - name: Stop service of systemd for firewalld
   systemd:
     name: firewalld
-    state: restarted
+    state: stopped
     enabled: false
 - name: Start service of systemd for wireguard
   systemd:
