@@ -19,6 +19,11 @@
     src: wg0.conf.j2
     dest: /etc/wireguard/wg0.conf
     mode: 0644
+- name: Stop service of systemd for firewalld
+  systemd:
+    name: firewalld
+    state: restarted
+    enabled: false
 - name: Start service of systemd for wireguard
   systemd:
     name: wg-quick@wg0
