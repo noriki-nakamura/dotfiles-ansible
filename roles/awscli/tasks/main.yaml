@@ -115,3 +115,8 @@
     changed_when: false
   when:
     ansible_architecture == "x86_64"
+
+- name: Install cfn-lint
+  pip:
+    name: cfn-lint
+  become: yes
