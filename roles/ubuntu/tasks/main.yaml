@@ -21,3 +21,6 @@
     deb: https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb
   when:
     ansible_architecture == "x86_64"
+- name: Install aws-sam-cli
+  pip:
+    name: aws-sam-cli
