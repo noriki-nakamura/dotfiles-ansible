@@ -10,5 +10,8 @@
     - role: MIRACLELinux
       when: ansible_facts['distribution'] == 'MIRACLE'
       become: yes
+    - role: ubuntu
+      when: ansible_facts['distribution'] == 'Ubuntu'
+      become: yes
     - role: dotfiles
     - role: vim
