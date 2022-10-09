@@ -1,8 +1,19 @@
 ---
-- name: Copy skel directory into home directory
+- name: Copy bash_logout file.
   copy:
-    remote_src: yes
-    src: /etc/skel
-    dest: "/home/{{ target_user }}"
+    src: bash_logout
+    dest: "/home/{{ target_user }}/.bash_logout"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+- name: Copy bashrc file.
+  copy:
+    src: bashrc
+    dest: "/home/{{ target_user }}/.bashrc"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+- name: Copy profile file.
+  copy:
+    src: profile
+    dest: "/home/{{ target_user }}/.profile"
     owner: "{{ target_user }}"
     group: "{{ target_user }}"
