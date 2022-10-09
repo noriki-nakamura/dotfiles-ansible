@@ -3,5 +3,6 @@
   copy:
     remote_src: yes
     src: /etc/skel
+    dest: "/home/{{ target_user }}/"
     owner: "{{ target_user }}"
     group: "{{ target_user }}"
