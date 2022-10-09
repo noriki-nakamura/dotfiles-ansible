@@ -1,0 +1,7 @@
+---
+- name: Copy skel directory into home directory
+  copy:
+    remote_src: yes
+    src: /etc/skel
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"

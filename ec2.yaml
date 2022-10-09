@@ -13,6 +13,9 @@
     - role: ubuntu
       when: ansible_facts['distribution'] == 'Ubuntu'
       become: yes
+    - role: ubuntu-ec2
+      when: ansible_facts['distribution'] == 'Ubuntu'
+      become: yes
     - role: dotfiles
       become: yes
     - role: vim
