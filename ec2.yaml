@@ -2,7 +2,7 @@
 - name: Deploy dotfiles for EC2
   hosts: all
   vars:
-    target_user: "ec2-user"
+    target_user: "ssm-user"
   roles:
     - role: AmazonLinux
       when: ansible_facts['distribution'] == 'Amazon'
