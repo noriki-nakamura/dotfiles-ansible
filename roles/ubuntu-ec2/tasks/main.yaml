@@ -1,4 +1,8 @@
 ---
+- name: Use bash as login shell
+  user:
+    name: "{{ target_user }}"
+    shell: /bin/bash
 - name: Copy bash_logout file.
   copy:
     src: bash_logout
