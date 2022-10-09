@@ -8,6 +8,8 @@
     path: "/home/{{ target_user }}/.cache/dein/repos/github.com/Shougo/dein.vim"
     state: directory
     mode: "0755"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
 - name: Unarchive dein
   unarchive:
     src: "/tmp/dein.tar.gz"
