@@ -1,0 +1,37 @@
+---
+- name: Install packages for Desktop environment
+  apt:
+    update_cache: yes
+    name: "{{ item }}"
+  loop:
+    - xubuntu-desktop
+    - xrdp
+- name: Disable new_cusrsors
+  lineinfile:
+    path: "/etc/xrdp/xrdp.ini"
+    regexp: "new_cursors=true"
+    line: "new_cursors=false"
+    backup: yes
+- name: Create User for RDP
+  user:
+    name: "{{ target_user }}"
+    shell: "/bin/bash"
+    skeleton: "/etc/skel/"
+    password: "{{ target_user_info.password }}"
+- name: Put .xsession file
+  copy:
+    src: xsession
+    dest: "/home/{{ target_user }}/.xsession"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+- name: Put .xsessionrc file
+  copy:
+    src: xsessionrc
+    dest: "/home/{{ target_user }}/.xsession"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+- name: Configure XRDP systemd service
+  systemd:
+    name: xrdp
+    state: restarted
+    enabled: yes

@@ -1,0 +1,10 @@
+---
+- name: Install XUbuntu desktop environment
+  hosts: all
+  vars:
+    target_user: "bynn_chapu"
+  roles:
+    - role: xubuntu-xrdp
+      when: ansible_facts['distribution'] == 'Ubuntu'
+      become: yes
+
