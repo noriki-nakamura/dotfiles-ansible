@@ -6,6 +6,11 @@
   loop:
     - xubuntu-desktop
     - xrdp
+- name: Add ssl-cert group to xrdp user
+  user:
+    name: xrdp
+    groups: ssl-cert
+    append: yes
 - name: Disable new_cusrsors
   lineinfile:
     path: "/etc/xrdp/xrdp.ini"
