@@ -1,0 +1,62 @@
+---
+- name: Install packages for Desktop environment
+  apt:
+    update_cache: yes
+    name: "{{ item }}"
+  loop:
+    - language-pack-ja
+    - ibus-mozc
+    - xubuntu-desktop
+    - xrdp
+    - firefox
+- name: Create Japanese locale
+  locale_gen:
+    name: "ja_JP.UTF-8"
+  when:
+    ansible_env.LANG != "ja_JP.UTF-8"
+- name: Set locale to Japanese
+  command: localectl set-locale LANG=ja_JP.UTF-8
+  when:
+    ansible_env.LANG != "ja_JP.UTF-8"
+- name: Add ssl-cert group to xrdp user
+  user:
+    name: xrdp
+    groups: ssl-cert
+    append: yes
+- name: Disable new_cusrsors
+  lineinfile:
+    path: "/etc/xrdp/xrdp.ini"
+    regexp: "new_cursors=true"
+    line: "new_cursors=false"
+    backup: yes
+- name: Configure XRDP systemd service
+  systemd:
+    name: xrdp
+    state: restarted
+    enabled: yes
+- name: Create User for RDP
+  user:
+    name: "{{ target_user }}"
+    shell: "/bin/bash"
+    skeleton: "/etc/skel/"
+    password: "{{ target_user_info.password }}"
+- name: Put .xsession file
+  copy:
+    src: xsession
+    dest: "/home/{{ target_user }}/.xsession"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+- name: Put .xsessionrc file
+  copy:
+    src: xsessionrc
+    dest: "/home/{{ target_user }}/.xsessionrc"
+    owner: "{{ target_user }}"
+    group: "{{ target_user }}"
+- name: Put polkit policy file to disable color management
+  copy:
+    src: 45-allow-colord.pkla
+    dest: "/etc/polkit-1/localauthority/50-local.d/45-allow-colord.pkla"
+- name: Configure polkit systemd service
+  systemd:
+    name: polkit
+    state: restarted
