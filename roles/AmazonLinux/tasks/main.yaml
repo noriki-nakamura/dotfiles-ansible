@@ -14,6 +14,7 @@
     update_cache: yes
     name: "{{ item }}"
   loop:
+    - make
     - gcc
     - libevent-devel
     - ncurses-devel
