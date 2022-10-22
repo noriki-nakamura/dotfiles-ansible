@@ -1,9 +1,0 @@
----
-- name: Prepare home directory for {{ target_user }}
-  file:
-    path: "/home/{{ target_user }}"
-    state: directory
-    mode: "0700"
-    owner: "{{ target_user }}"
-    group: "{{ target_user }}"
-  become: yes
