@@ -1,26 +1,32 @@
 ---
-- name: Download archive of dein
-  get_url:
-    url: https://github.com/Shougo/dein.vim/archive/refs/tags/2.2.tar.gz
-    dest: "/tmp/dein.tar.gz"
-- name: Prepare directory for dein
-  file:
+- name: Check availability directory of dein
+  stat:
     path: "/home/{{ target_user }}/.cache/dein/repos/github.com/Shougo/dein.vim"
-    state: directory
-    mode: "0755"
-    owner: "{{ target_user }}"
-    group: "{{ target_user }}"
-- name: Unarchive dein
-  unarchive:
-    src: "/tmp/dein.tar.gz"
-    dest: "/home/{{ target_user }}/.cache/dein/repos/github.com/Shougo/dein.vim"
-    extra_opts: --strip-components=1
-    owner: "{{ target_user }}"
-    group: "{{ target_user }}"
-- name: Remove archive of dein
-  file:
-    path: "/tmp/dein.tar.gz"
-    state: absent
-- name: Show installation step
-  debug:
-    msg: "Run vim and do `:call dein#install()`"
+  register: dein_dir
+- block:
+  - name: Download archive of dein
+    get_url:
+      url: https://github.com/Shougo/dein.vim/archive/refs/tags/2.2.tar.gz
+      dest: "/tmp/dein.tar.gz"
+  - name: Prepare directory for dein
+    file:
+      path: "/home/{{ target_user }}/.cache/dein/repos/github.com/Shougo/dein.vim"
+      state: directory
+      mode: "0755"
+      owner: "{{ target_user }}"
+      group: "{{ target_user }}"
+  - name: Unarchive dein
+    unarchive:
+      src: "/tmp/dein.tar.gz"
+      dest: "/home/{{ target_user }}/.cache/dein/repos/github.com/Shougo/dein.vim"
+      extra_opts: --strip-components=1
+      owner: "{{ target_user }}"
+      group: "{{ target_user }}"
+  - name: Remove archive of dein
+    file:
+      path: "/tmp/dein.tar.gz"
+      state: absent
+  - name: Show installation step
+    debug:
+      msg: "Run vim and do `:call dein#install()`"
+  when: not dein_dir.stat.exists
