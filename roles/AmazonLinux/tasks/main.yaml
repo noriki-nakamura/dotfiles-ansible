@@ -14,13 +14,14 @@
     update_cache: yes
     name: "{{ item }}"
   loop:
+    - make
     - gcc
     - libevent-devel
     - ncurses-devel
 - name: Check is tmux command installed
   command: "which tmux"
   environment:
-    PATH: "/usr/loca/bin:{{ ansible_env.PATH }}"
+    PATH: "/usr/local/bin:{{ ansible_env.PATH }}"
   register: exist_tmux
   changed_when: false
   failed_when: false
@@ -28,7 +29,7 @@
   shell:
     cmd: "tmux -V | grep -oP \"([0-9]+.){1}[0-9]+(.[0-9]+)?[a-zA-Z]?\""
   environment:
-    PATH: "/usr/loca/bin:{{ ansible_env.PATH }}"
+    PATH: "/usr/local/bin:{{ ansible_env.PATH }}"
   register: version_tmux
   changed_when: false
   failed_when: false

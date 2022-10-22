@@ -1,0 +1,11 @@
+---
+- name: Prepare user for {{ target_user }}
+  user:
+    name: "{{ target_user }}"
+    shell: "/bin/bash"
+    skeleton: "/etc/skel/"
+- name: Put sudoers file
+  template:
+    src: sudoers.j2
+    dest: "/etc/sudoers.d/{{ target_user }}"
+    mode: "0644"

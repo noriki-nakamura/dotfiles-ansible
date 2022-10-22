@@ -19,6 +19,8 @@
     - role: sudo
       when: ansible_facts['distribution'] == 'Ubuntu'
       become: yes
+    - role: prepare-user
+      become: yes
     - role: dotfiles
       become: yes
     - role: vim
