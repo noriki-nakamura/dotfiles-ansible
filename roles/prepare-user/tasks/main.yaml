@@ -1,4 +1,10 @@
 ---
+- name: Install packages for sudo (AmazonLinux)
+  yum:
+    update_cache: yes
+    name: "{{ item }}"
+  loop:
+    - sudo
 - name: Prepare user for {{ target_user }}
   user:
     name: "{{ target_user }}"
