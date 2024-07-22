@@ -1,0 +1,6 @@
+---
+- name: Enable systemd for WSL environment
+  hosts: all
+  roles:
+    - role: wsl-systemd
+      become: yes

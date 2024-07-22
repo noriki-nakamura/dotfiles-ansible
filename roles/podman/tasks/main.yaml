@@ -1,0 +1,13 @@
+---
+- name: Install podman and related packages
+  dnf:
+    update_cache: yes
+    name: "{{ item }}"
+  loop:
+    - podman
+    - podman-docker
+- name: Enable and start podman
+  systemd_service:
+    name: podman
+    state: started
+    enabled: true

@@ -1,0 +1,8 @@
+---
+- name: Enable systemd in WSL environment
+  copy:
+    src: wsl.conf
+    dest: /etc/wsl.conf
+- name: Show apply step
+  debug:
+    msg: "Restart WSL from Powershell."
