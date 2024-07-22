@@ -1,0 +1,12 @@
+---
+- name: Install packages (AlmaLinux)
+  yum:
+    update_cache: yes
+    name: "{{ item }}"
+  loop:
+    - git
+    - vim
+    - zip
+    - unzip
+    - python3-pip
+    - zsh

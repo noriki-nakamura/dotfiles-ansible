@@ -9,6 +9,9 @@
     - role: ubuntu
       when: ansible_facts['distribution'] == 'Ubuntu'
       become: yes
+    - role: AlmaLinux
+      when: ansible_facts['distribution'] == 'AlmaLinux'
+      become: yes
     - role: dotfiles
     - role: zsh
     - role: vim
